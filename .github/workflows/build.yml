@@ -15,11 +15,16 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y git zip unzip openjdk-17-jdk autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo6 cmake libffi-dev libssl-dev automake
-          pip install --upgrade pip setuptools wheel
-          pip install buildozer cython==0.29.37 virtualenv
+          sudo apt-get install -y build-essential git zip unzip openjdk-17-jdk autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo6 cmake libffi-dev libssl-dev automake patch lbzip2 xz-utils
+          pip install --upgrade pip "setuptools<70.0.0" wheel
+          pip install buildozer "cython<3.0.0" virtualenv
 
       - name: Build APK
+        env:
+          ANDROID_HOME: ""
+          ANDROID_SDK_ROOT: ""
+          ANDROID_NDK_ROOT: ""
+          ANDROID_NDK_LATEST_HOME: ""
         run: |
           yes | buildozer -v android debug
 
